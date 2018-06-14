@@ -1445,11 +1445,22 @@ You can optionally specify additional scope to use. If no ``SCOPE`` value
 is set, will use ``snsapi_login`` by default(for Open Platform Account, need
 registration). Other ``SCOPE`` options are: snsapi_base, snsapi_userinfo.
 
+If your backend needs to support multiple apps, but use an account, you need
+to use unionid instead of openid to identify user information.
+
 .. code-block:: python
 
     SOCIALACCOUNT_PROVIDERS = {
         'weixin': {
             'AUTHORIZE_URL': 'https://open.weixin.qq.com/connect/oauth2/authorize',  # for media platform
+            'SCOPE': ['snsapi_base'],
+        }
+    }
+
+    SOCIALACCOUNT_PROVIDERS = {
+        'weixin': {
+            'AUTHORIZE_URL': 'https://open.weixin.qq.com/connect/oauth2/authorize',  # for media platform
+            'UID_TYPE': 'unionid',
             'SCOPE': ['snsapi_base'],
         }
     }

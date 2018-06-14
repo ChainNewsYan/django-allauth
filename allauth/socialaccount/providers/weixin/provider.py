@@ -19,7 +19,8 @@ class WeixinProvider(OAuth2Provider):
     account_class = WeixinAccount
 
     def extract_uid(self, data):
-        return data['openid']
+        uid_type = self.get_uid_type()
+        return data[uid_type]
 
     def get_default_scope(self):
         return ['snsapi_login']
@@ -27,6 +28,11 @@ class WeixinProvider(OAuth2Provider):
     def extract_common_fields(self, data):
         return dict(username=data.get('nickname'),
                     name=data.get('nickname'))
+
+    def get_uid_type(self):
+        settings = self.get_settings()
+        uid_type = settings.get('UID_TYPE', 'openid')
+        return uid_type
 
 
 provider_classes = [WeixinProvider]
